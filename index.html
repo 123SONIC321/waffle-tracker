@@ -17,6 +17,7 @@
             --red-glow: rgba(255, 82, 82, 0.4);
             --text: #ffffff; 
             --sub: #b0b0b0;
+            --yellow: #ffeb3b;
         }
         body {
             background: var(--bg); color: var(--text);
@@ -39,21 +40,22 @@
         /* --- هدر و دکمه Info --- */
         h1 {
             text-align: center; color: var(--accent); 
-            font-size: 1.1rem; /* سایز کمتر */
+            font-size: 1.5rem; /* سایز اصلی کد 1 */
             margin: 5px 0 0 0;
-            text-shadow: 0 0 10px var(--accent-glow);
-            padding: 0 40px; /* فاصله از طرفین برای جلوگیری از تداخل */
+            text-shadow: 0 0 15px var(--accent-glow);
+            padding: 0 40px;
             line-height: 1.6;
         }
 
         .info-btn {
             position: absolute; top: 15px; left: 15px;
-            width: 30px; height: 30px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 32px; height: 32px;
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--accent); color: var(--accent);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-weight: bold; cursor: pointer; z-index: 10;
             animation: pulse-glow 2.5s infinite;
+            font-family: serif;
         }
         
         @keyframes pulse-glow {
@@ -68,7 +70,7 @@
             background: #252525; padding: 12px; border-radius: 16px; text-align: center;
             border: 1px solid #333; position: relative; overflow: hidden;
         }
-        .stat-label { font-size: 0.7rem; color: var(--sub); margin-bottom: 5px; }
+        .stat-label { font-size: 0.7rem; color: var(--sub); margin-bottom: 5px; line-height: 1.4; }
         .stat-value { font-size: 1.6rem; font-weight: 900; letter-spacing: 1px; transition: color 0.3s; }
         .val-green { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
         
@@ -81,11 +83,10 @@
             background: #222; border-radius: 20px; padding: 18px;
             border: 1px solid #333; position: relative;
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            min-height: 260px; /* ارتفاع ثابت برای جلوگیری از پرش */
+            min-height: 260px; 
             display: flex; flex-direction: column; justify-content: space-between;
         }
         
-        /* انیمیشن ورق زدن */
         .fade-in { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px) scale(0.98); }
@@ -96,10 +97,10 @@
             display: flex; flex-direction: column; align-items: center; 
             margin-bottom: 15px; gap: 6px;
         }
-        .stage-title { font-size: 1.2rem; font-weight: bold; color: var(--text); }
+        .stage-title { font-size: 1.2rem; font-weight: bold; color: var(--text); text-shadow: 0 0 5px rgba(255,255,255,0.2); }
         .stage-badge { 
             background: rgba(187, 134, 252, 0.1); color: var(--accent); 
-            padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; 
+            padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
             border: 1px solid rgba(187, 134, 252, 0.3);
         }
         
@@ -109,9 +110,10 @@
             color: #fff; font-family: 'Vazirmatn', sans-serif; font-size: 0.95rem;
             cursor: pointer; position: relative; transition: transform 0.1s;
             background: linear-gradient(145deg, #333, #2a2a2a); border: 1px solid #444;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .rank-btn:active { transform: scale(0.95); }
-        .rank-btn small { display: block; font-size: 0.7rem; opacity: 0.7; margin-top: 3px; }
+        .rank-btn:active { transform: scale(0.96); }
+        .rank-btn small { display: block; font-size: 0.7rem; opacity: 0.8; margin-top: 4px; }
         
         .btn-loss { 
             grid-column: span 2; background: linear-gradient(145deg, #2d1a1a, #251515);
@@ -137,15 +139,15 @@
 
         .target-control {
             display: flex; align-items: center; justify-content: center; gap: 15px;
-            background: #222; padding: 5px; border-radius: 12px; margin-top: 5px;
-            border: 1px solid #333; width: fit-content; margin: 5px auto;
+            background: #222; padding: 6px; border-radius: 14px; margin-top: 8px;
+            border: 1px solid #333; width: fit-content; margin-left: auto; margin-right: auto;
         }
         .t-btn {
-            width: 35px; height: 35px; border-radius: 8px; border: none;
+            width: 38px; height: 38px; border-radius: 10px; border: none;
             background: #333; color: #fff; font-size: 1.2rem; cursor: pointer;
         }
         .t-btn:disabled { background: #1a1a1a; color: #444; cursor: not-allowed; }
-        .t-display { font-size: 1.3rem; font-weight: 900; min-width: 40px; text-align: center; }
+        .t-display { font-size: 1.4rem; font-weight: 900; min-width: 50px; text-align: center; }
 
         /* --- بخش تاریخچه (کشویی) --- */
         .history-drawer {
@@ -160,21 +162,29 @@
         }
         .log-green { color: var(--green); } .log-red { color: var(--red); }
 
-        /* --- مودال راهنما --- */
+        /* --- مودال راهنما (استایل کد ۱) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            display: none; justify-content: center; align-items: center; z-index: 100; padding: 20px;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 100;
+            padding: 20px; box-sizing: border-box;
         }
         .modal-content {
-            background: #1c1c1c; width: 100%; max-width: 380px;
+            background: #1a1a1a; width: 100%; max-width: 400px;
             border-radius: 20px; padding: 25px; border: 1px solid var(--accent);
-            box-shadow: 0 0 30px rgba(187, 134, 252, 0.2);
-            color: #eee; text-align: right;
+            box-shadow: 0 0 30px var(--accent-glow);
+            position: relative; text-align: right; color: #eee;
+            max-height: 80vh; overflow-y: auto; /* برای اسکرول در موبایل */
         }
         .modal-close {
-            float: left; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;
+            position: absolute; top: 15px; left: 15px;
+            background: #333; color: #fff; border: none;
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            font-weight: bold;
         }
+        .modal-h2 { color: var(--accent); margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .modal-p { font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-bottom: 10px; }
+        .modal-badge { background: #333; padding: 2px 6px; border-radius: 4px; color: var(--accent); font-size: 0.8rem; }
 
     </style>
 </head>
@@ -191,7 +201,7 @@
         </div>
         <div class="stat-box">
             <div class="stat-label">فاصله تا هدف</div>
-            <div class="stat-value" style="color:#ffeb3b" id="gapDisplay">94</div>
+            <div class="stat-value" style="color:var(--yellow)" id="gapDisplay">94</div>
         </div>
     </div>
 
@@ -207,13 +217,14 @@
 
         <div class="wizard-controls">
             <button class="ctrl-btn" id="btnBack" onclick="goBackStep()">↩️ اصلاح قبلی</button>
-            <button class="ctrl-btn" style="color:var(--accent);" onclick="toggleHistory()">📜 مشاهده تاریخچه</button>
+            <button class="ctrl-btn" style="color:var(--accent); font-weight:bold;" onclick="toggleHistory()">📜 مشاهده تاریخچه</button>
         </div>
     </div>
 
     <div class="advisor-box" id="advisorText">در حال محاسبه...</div>
 
-    <div style="text-align:center;">
+    <div style="text-align:center; margin-top:5px;">
+        <label style="font-size:0.7rem; color:#666;">هدف نهایی (Target Cap)</label>
         <div class="target-control">
             <button class="t-btn" id="btnMinus" onclick="changeTarget(-1)">−</button>
             <div class="t-display" id="targetVal">94</div>
@@ -221,7 +232,7 @@
         </div>
     </div>
 
-    <div style="text-align:center; color:#444; font-size:0.7rem; margin-top:10px; cursor:pointer;" onclick="resetAll()">🗑️ پاکسازی کامل و شروع مجدد</div>
+    <div style="text-align:center; color:#444; font-size:0.7rem; margin-top:15px; cursor:pointer;" onclick="resetAll()">🗑️ پاکسازی کامل اطلاعات</div>
 
     <div class="history-drawer" id="historyDrawer">
         <div class="history-content" id="historyList">
@@ -233,12 +244,22 @@
 <div class="modal-overlay" id="helpModal">
     <div class="modal-content">
         <button class="modal-close" onclick="closeHelp()">✕</button>
-        <h3 style="color:var(--accent); margin-top:0;">راهنما 🧇</h3>
-        <p style="font-size:0.9rem; line-height:1.7; color:#ccc;">
-            هدف: رسیدن به <b>۹۴ وافل</b> (نه ۹۵).<br><br>
-            🔹 <b>Deep Run:</b> استیج ۱ تا ۴ برنده، استیج ۵ بازنده.<br>
-            🔹 <b>Gap Fill:</b> باخت سریع در استیج ۱.<br><br>
-            وقتی به ۹۴ رسیدی، یک دور کامل بازی کن و همه رو ببر!
+        <h2 class="modal-h2">راهنمای استراتژی 🧇</h2>
+        <p class="modal-p">
+            هدف ما فریب دادن بازی برای عبور از سقف <b>۹۵ وافل</b> و رسیدن به حدود ۱۸۹ وافل در روز است.
+        </p>
+        <p class="modal-p">
+            <b>۱. هدف‌گذاری (۹۰ تا ۹۴):</b><br>
+            شما باید طوری بازی کنید که مجموع وافل‌هایتان دقیقاً به عدد <b>۹۴</b> (یا نزدیک به آن) برسد، اما هرگز ۹۵ نشود.
+        </p>
+        <p class="modal-p">
+            <b>۲. استراتژی‌ها:</b><br>
+            🔹 <span class="modal-badge">Deep Run</span>: مراحل ۱ تا ۴ را ببرید، اما مرحله ۵ را عمداً ببازید (برای حفظ کاپ).<br>
+            🔹 <span class="modal-badge">Gap Fill</span>: برای پر کردن فاصله‌های کم، در مرحله ۱ سریع ببازید (هر باخت = ۱ وافل).
+        </p>
+        <p class="modal-p">
+            <b>۳. حرکت نهایی (Perfect Run):</b><br>
+            وقتی دقیقاً به ۹۴ رسیدید، یک دست کامل بازی کنید و تمام مراحل ۱ تا ۵ را ببرید تا جایزه دوبل بگیرید!
         </p>
     </div>
 </div>
@@ -263,19 +284,19 @@
         renderUI();
     }
 
-    // --- منطق اصلی: اضافه شدن آنی ---
+    // --- منطق اصلی: اضافه شدن آنی (از کد ۲) ---
     function handleWin(rank) {
         const gain = REWARDS[state.currentStage] + BONUS[rank];
         
         // 1. اضافه شدن آنی به کل
         state.total += gain;
         
-        // 2. ثبت در تاریخچه (برای آندو)
+        // 2. ثبت در تاریخچه
         state.history.push({ 
             stage: state.currentStage, 
             gain: gain, 
             type: 'win',
-            desc: `برد در S${state.currentStage} (رتبه ${rank})`
+            desc: `برد در استیج ${state.currentStage} (رتبه ${rank})` // فارسی شد
         });
 
         // 3. آپدیت وضعیت ران
@@ -288,7 +309,7 @@
 
         if (state.currentStage > 5) {
             setTimeout(() => {
-                alert("🎉 ران تمام شد! همه چیز قبلاً ثبت شده.");
+                alert("🎉 ران کامل شد! وافل‌ها ذخیره شدند.");
                 resetRunState();
                 save();
             }, 300);
@@ -298,14 +319,14 @@
     }
 
     function handleLoss() {
-        // در باخت، فقط 1 وافل اضافه می‌شود (چون بردهای قبلیِ این ران، لحظه‌ای اضافه شده بودند)
+        // در باخت، فقط 1 وافل اضافه می‌شود
         state.total += 1;
         
         state.history.push({
             stage: state.currentStage,
             gain: 1,
             type: 'loss',
-            desc: `باخت در S${state.currentStage}`
+            desc: `باخت در استیج ${state.currentStage}` // فارسی شد
         });
 
         triggerAnimation();
@@ -328,21 +349,11 @@
         // کسر کردن مقداری که آنی اضافه شده بود
         state.total -= lastMove.gain;
         
-        // اگر آخرین حرکت برد بود، باید ران اسکور هم کم بشه و استیج بیاد عقب
         if (lastMove.type === 'win') {
             state.runScore -= lastMove.gain;
             state.currentStage = lastMove.stage;
-        } else {
-            // اگر باخت بود، یعنی ران تمام شده بود. اما چون ما تاریخچه کامل ران رو نداریم،
-            // فقط آخرین حرکت (باخت) رو برمی‌گردونیم و فرض می‌کنیم کاربر میخواد دوباره تصمیم بگیره.
-            // (در منطق ساده، باخت استیج رو ۱ میکنه. پس آندو کردن باخت باید ما رو برگردونه به استیج قبل؟ 
-            //  نه، اینجا کمی پیچیده است. ساده‌ترین حالت: باخت رو لغو میکنیم و کاربر دوباره در استیج ۱ است 
-            //  یا بهتر: برمیگردیم به وضعیتی که دکمه باخت زده شد).
-            //  *برای سادگی UX*: آندو کردن باخت، فقط ۱ امتیاز کم میکند و استیج را روی ۱ نگه میدارد 
-            //  چون اطلاعات استیج قبل از باخت ذخیره نشده بود.*
-            //  اگر نیاز به آندو دقیق‌تر دارید، باید کل state ران ذخیره شود. 
-            //  فعلا: آندو باخت = کسر ۱ امتیاز و ماندن در استیج ۱.
         }
+        // در حالت باخت، فقط امتیاز کم می‌شود و در استیج ۱ می‌ماند
         
         save();
     }
@@ -395,7 +406,7 @@
         // Wizard
         const stage = state.currentStage;
         document.getElementById('stageTitle').innerText = `رتبه‌ت توی استیج ${stage}`;
-        document.getElementById('currentRunBadge').innerText = `وافلای این ران: ${state.runScore}`;
+        document.getElementById('currentRunBadge').innerText = `تعداد وافلای این ران: ${state.runScore}`;
         document.getElementById('btnBack').disabled = (state.history.length === 0);
 
         // Generate Buttons
@@ -405,13 +416,15 @@
             const reward = REWARDS[stage] + BONUS[r];
             const btn = document.createElement('button');
             btn.className = 'rank-btn';
-            btn.innerHTML = `رتبه ${r} <small style="color:var(--green)">+${reward}</small>`;
+            // متن دکمه فارسی کد ۱
+            btn.innerHTML = `رتبه ${r} <small style="color:var(--green)">+${reward} وافل</small>`;
             btn.onclick = () => handleWin(r);
             grid.appendChild(btn);
         }
         const loseBtn = document.createElement('button');
         loseBtn.className = 'rank-btn btn-loss';
-        loseBtn.innerHTML = `توی استیج ${stage} باختم <small>+1</small>`;
+        // متن دکمه فارسی کد ۱
+        loseBtn.innerHTML = `توی استیج ${stage} باختم <small>+1 وافل و پایان ران</small>`;
         loseBtn.onclick = () => handleLoss();
         grid.appendChild(loseBtn);
 
@@ -420,6 +433,7 @@
         updateHistoryList();
     }
 
+    // --- متن‌ها دقیقاً از کد ۱ برگردانده شد ---
     function updateAdvisor(gap) {
         const el = document.getElementById('advisorText');
         const total = state.total;
@@ -430,17 +444,20 @@
             el.style.borderColor = "var(--red)";
             el.style.background = "rgba(255, 82, 82, 0.1)";
         } else if (total === state.target) {
-            el.innerHTML = `<span style="color:var(--green); font-weight:bold;">🎉 بزن بریم Perfect Run!</span><br>الان وقتشه تا آخر بری و همه رو ببری.`;
+            // متن کامل کد ۱
+            el.innerHTML = `<span style="color:var(--green); font-weight:bold;">🎉 رسیدیم به هدف!</span><br>حالا یه ران کامل (Perfect Run) برو.`;
             el.style.borderColor = "var(--green)";
             el.style.background = "rgba(0, 230, 118, 0.1)";
         } else if (total + 1 === 95) {
-            el.innerHTML = `<span style="color:var(--red); font-weight:bold;">⚠️ خطر تله!</span> نباید ببازی.`;
+            // متن کامل کد ۱
+            el.innerHTML = `<span style="color:var(--red); font-weight:bold;">⚠️ خطر تله!</span><br>نباید ببازی. حتما باید استیج ۱ رو ببری.`;
             el.style.borderColor = "var(--red)";
         } else {
+            // متن‌های کامل و فارسی پیشنهادات
             let msg = "";
-            if (gap >= 73) msg = `پیشنهاد: <b style="color:var(--accent)">Deep Run</b> (S1-S4 برد، S5 باخت)`;
-            else if (gap >= 16) msg = `پیشنهاد: <b style="color:var(--accent)">Short Run</b> (S1 برد، S2 باخت)`;
-            else msg = `پیشنهاد: <b style="color:var(--yellow)">Gap Fill</b> (سریع در S1 بباز)`;
+            if (gap >= 73) msg = `پیشنهاد: <b style="color:var(--accent)">Deep Run</b><br>(تا استیج ۴ ببر، ولی استیج ۵ رو بباز)`;
+            else if (gap >= 16) msg = `پیشنهاد: <b style="color:var(--accent)">Short Run</b><br>(استیج ۱ رو ببر، ولی استیج ۲ رو بباز)`;
+            else msg = `پیشنهاد: <b style="color:var(--yellow)">Gap Fill</b><br>(${gap} بار پشت سر هم توی استیج ۱ بباز)`;
             el.innerHTML = msg;
         }
     }
@@ -451,7 +468,6 @@
             list.innerHTML = '<div style="text-align:center; font-size:0.8rem;">هنوز فعالیتی ثبت نشده</div>';
             return;
         }
-        // نمایش ۱۰ آیتم آخر
         const recent = state.history.slice().reverse().slice(0, 10);
         list.innerHTML = recent.map(h => `
             <div class="log-item">
