@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waffle Optimizer</title>
+    
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+
     <style>
         :root {
             --bg-color: #121212;
@@ -12,11 +15,12 @@
             --accent: #bb86fc;
             --error: #cf6679;
             --success: #03dac6;
+            --font-stack: 'Vazirmatn', sans-serif; /* تعریف فونت */
         }
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: Tahoma, Arial, sans-serif;
+            font-family: var(--font-stack); /* اعمال فونت */
             margin: 0;
             padding: 20px;
             display: flex;
@@ -30,7 +34,12 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        h2 { text-align: center; color: var(--accent); margin-bottom: 5px; }
+        h2 { 
+            text-align: center; 
+            color: var(--accent); 
+            margin-bottom: 5px;
+            font-weight: 900; /* ضخیم‌تر */
+        }
         .stats {
             display: flex;
             justify-content: space-between;
@@ -42,6 +51,12 @@
             font-weight: bold;
         }
         .input-group { margin-bottom: 15px; }
+        
+        /* فونت برای ورودی‌ها و دکمه‌ها هم باید ست شود */
+        input, button {
+            font-family: var(--font-stack);
+        }
+
         input[type="number"], input[type="text"] {
             width: 100%;
             padding: 12px;
@@ -52,6 +67,7 @@
             font-size: 16px;
             box-sizing: border-box;
             text-align: center;
+            font-weight: bold;
         }
         button {
             width: 100%;
@@ -71,7 +87,7 @@
             background: #000;
             padding: 10px;
             border-radius: 5px;
-            font-family: monospace;
+            font-family: 'Courier New', monospace; /* اعداد لاگ انگلیسی بمانند بهتر است */
             font-size: 12px;
             height: 100px;
             overflow-y: auto;
@@ -84,6 +100,7 @@
             margin-top: 10px;
             text-align: center;
             display: none;
+            font-weight: bold;
         }
         .alert-danger { background: rgba(207, 102, 121, 0.2); color: var(--error); border: 1px solid var(--error); }
         .alert-success { background: rgba(3, 218, 198, 0.2); color: var(--success); border: 1px solid var(--success); }
@@ -93,7 +110,7 @@
 
 <div class="container">
     <h2>🧇 وافل شمار</h2>
-    <div style="text-align:center; font-size:12px; color:#888;">Brawl Stars Optimizer</div>
+    <div style="text-align:center; font-size:12px; color:#888;">Stranger Things Event Optimizer</div>
 
     <div class="stats">
         <div>💰 موجودی: <span id="totalDisplay" style="color:var(--success)">0</span></div>
@@ -104,22 +121,22 @@
     <div id="winAlert" class="alert alert-success">🎉 آماده ران نهایی (Perfect Run)</div>
 
     <div class="input-group">
-        <label style="font-size:12px; color:#aaa;">کد بازی (مثلاً 625):</label>
+        <label style="font-size:12px; color:#aaa; margin-bottom: 5px; display:block;">کد بازی (مثلاً 625):</label>
         <input type="text" id="runCode" placeholder="کد را اینجا وارد کنید..." inputmode="numeric">
-        <button class="btn-calc" onclick="processCode()">➕ ثبت کد</button>
+        <button class="btn-calc" onclick="processCode()">محاسبه و ثبت</button>
     </div>
 
     <div style="display:flex; gap:10px;">
-        <button class="btn-loss" onclick="addLoss()">💀 باخت سریع (+1)</button>
+        <button class="btn-loss" onclick="addLoss()">💀 باخت سریع (+۱)</button>
         <button class="btn-loss" style="border-color:#444; color:#aaa;" onclick="undo()">↩️ بازگشت</button>
     </div>
 
     <div class="log-box" id="logArea">
-        <div>آماده برای شروع...</div>
+        <div style="color:#888;">آماده برای شروع...</div>
     </div>
 
     <div style="margin-top:20px; border-top:1px solid #333; padding-top:10px;">
-        <label style="font-size:12px;">هدف (Target):</label>
+        <label style="font-size:12px; color:#888;">هدف نهایی (Target):</label>
         <input type="number" id="targetCap" value="94" onchange="updateUI()">
         <button class="btn-reset" onclick="resetAll()">🗑️ پاک کردن همه اطلاعات</button>
     </div>
@@ -128,7 +145,6 @@
 <script>
     // متغیرهای وضعیت
     let totalWaffles = 0;
-    let historyLog = [];
     
     // جوایز
     const STAGE_REWARDS = {1: 10, 2: 12, 3: 14, 4: 16, 5: 18};
@@ -222,10 +238,16 @@
         document.getElementById('trapAlert').style.display = 'none';
         document.getElementById('winAlert').style.display = 'none';
 
-        if (totalWaffles === target) {
+        if (totalWaffles >= target && totalWaffles < 95) {
+             // اگر دقیقاً به هدف رسید یا رد کرد ولی هنوز ۹۵ نشده (مثلاً ۹۴)
             document.getElementById('winAlert').style.display = 'block';
         } else if (totalWaffles + 1 === 95) {
             document.getElementById('trapAlert').style.display = 'block';
+        } else if (totalWaffles >= 95) {
+             // اگر از ۹۵ رد شد، پیام تبریک نهایی یا هشدار بسته شدن
+             // فعلا رنگ قرمز برای تمام شدن ایونت
+             document.getElementById('trapAlert').innerText = "⛔ ایونت تمام شد (۹۵+)";
+             document.getElementById('trapAlert').style.display = 'block';
         }
     }
 </script>
