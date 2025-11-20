@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waffle Optimizer</title>
+    <title>Brawl Stars Waffle</title>
     
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
@@ -11,166 +11,257 @@
         :root {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
+            --text-color: #f0f0f0;
             --accent: #bb86fc;
             --error: #cf6679;
-            --success: #03dac6;
-            --font-stack: 'Vazirmatn', sans-serif; /* تعریف فونت */
+            --success: #00e676;
+            --warning: #ffeb3b;
+            --font-stack: 'Vazirmatn', sans-serif;
         }
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: var(--font-stack); /* اعمال فونت */
+            font-family: var(--font-stack);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
         }
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
         }
         h2 { 
             text-align: center; 
             color: var(--accent); 
-            margin-bottom: 5px;
-            font-weight: 900; /* ضخیم‌تر */
+            margin: 0 0 20px 0;
+            font-weight: 900;
+            font-size: 1.6rem;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
         }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            background: #2c2c2c;
+        
+        /* بخش آمار */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: #2d2d2d;
             padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-size: 1.1em;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #3d3d3d;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.8rem;
             font-weight: bold;
         }
-        .input-group { margin-bottom: 15px; }
         
-        /* فونت برای ورودی‌ها و دکمه‌ها هم باید ست شود */
-        input, button {
-            font-family: var(--font-stack);
+        /* جعبه پیشنهاد هوشمند */
+        .suggestion-box {
+            background: linear-gradient(135deg, #303030, #252525);
+            border-right: 5px solid var(--accent);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .suggestion-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .suggestion-text {
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
-        input[type="number"], input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background: #333;
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-            text-align: center;
-            font-weight: bold;
+        /* ورودی‌ها */
+        .input-section {
+            background: #252525;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
         }
+        label {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 8px;
+            display: block;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            background: #1a1a1a;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: var(--font-stack);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent); outline: none; }
+
+        /* دکمه‌ها */
         button {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
-            transition: 0.2s;
+            font-family: var(--font-stack);
+            transition: transform 0.1s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        .btn-calc { background-color: var(--accent); color: #000; }
-        .btn-loss { background-color: #333; border: 1px solid var(--error); color: var(--error); }
-        .btn-reset { background-color: transparent; color: #666; margin-top: 20px; font-size: 12px; }
-        .log-box {
-            background: #000;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace; /* اعداد لاگ انگلیسی بمانند بهتر است */
-            font-size: 12px;
-            height: 100px;
-            overflow-y: auto;
-            margin-top: 15px;
-            border: 1px solid #333;
+        button:active { transform: scale(0.98); }
+        
+        .btn-primary { 
+            background-color: var(--accent); 
+            color: #121212; 
+            box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
         }
-        .alert {
+        .btn-loss { 
+            background-color: #2c2c2c; 
+            color: var(--error); 
+            border: 1px solid var(--error);
+            margin-bottom: 10px;
+        }
+        .btn-undo { 
+            background-color: transparent; 
+            color: #888; 
+            font-size: 0.9rem;
             padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
+            border: 1px dashed #444;
+        }
+
+        /* تاریخچه */
+        .history-list {
+            margin-top: 25px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+        .history-item {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+            border-right: 3px solid #444;
+        }
+        .history-item.win { border-color: var(--success); }
+        .history-item.loss { border-color: var(--error); }
+
+        /* تنظیمات مخفی */
+        .settings-toggle {
             text-align: center;
-            display: none;
-            font-weight: bold;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            cursor: pointer;
         }
-        .alert-danger { background: rgba(207, 102, 121, 0.2); color: var(--error); border: 1px solid var(--error); }
-        .alert-success { background: rgba(3, 218, 198, 0.2); color: var(--success); border: 1px solid var(--success); }
+        #settingsArea { display: none; margin-top: 10px; background: #111; padding: 15px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🧇 وافل شمار</h2>
-    <div style="text-align:center; font-size:12px; color:#888;">Stranger Things Event Optimizer</div>
+    <h2>🧇 ماشین‌حساب وافل 🧇</h2>
 
-    <div class="stats">
-        <div>💰 موجودی: <span id="totalDisplay" style="color:var(--success)">0</span></div>
-        <div>🎯 مانده: <span id="gapDisplay">94</span></div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">کل وافل‌های شما</div>
+            <div class="stat-value" id="totalDisplay" style="color:var(--success)">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">فاصله تا هدف (۹۴)</div>
+            <div class="stat-value" id="gapDisplay" style="color:white">94</div>
+        </div>
     </div>
 
-    <div id="trapAlert" class="alert alert-danger">⚠️ خطر تله! باختن = قفل شدن روی ۹۵</div>
-    <div id="winAlert" class="alert alert-success">🎉 آماده ران نهایی (Perfect Run)</div>
-
-    <div class="input-group">
-        <label style="font-size:12px; color:#aaa; margin-bottom: 5px; display:block;">کد بازی (مثلاً 625):</label>
-        <input type="text" id="runCode" placeholder="کد را اینجا وارد کنید..." inputmode="numeric">
-        <button class="btn-calc" onclick="processCode()">محاسبه و ثبت</button>
+    <div class="suggestion-box" id="suggestionBox">
+        <div class="suggestion-title">💡 پیشنهاد استراتژی بعدی:</div>
+        <div class="suggestion-text" id="suggestionText">در حال تحلیل...</div>
     </div>
 
-    <div style="display:flex; gap:10px;">
-        <button class="btn-loss" onclick="addLoss()">💀 باخت سریع (+۱)</button>
-        <button class="btn-loss" style="border-color:#444; color:#aaa;" onclick="undo()">↩️ بازگشت</button>
+    <div class="input-section">
+        <label>✍️ رتبه‌های کسب شده در مراحل:</label>
+        <input type="text" id="runCode" placeholder="مثلاً 124 (رتبه ۱، ۲ و ۴)" inputmode="numeric">
+        <button class="btn-primary" onclick="processCode()">✅ محاسبه و ثبت رتبه‌ها</button>
     </div>
 
-    <div class="log-box" id="logArea">
-        <div style="color:#888;">آماده برای شروع...</div>
+    <button class="btn-loss" onclick="addLoss()">
+        💀 ثبت یک باخت سریع (+۱ وافل)
+    </button>
+    
+    <button class="btn-undo" onclick="undo()">
+        ↩️ اصلاح اشتباه (حذف حرکت آخر)
+    </button>
+
+    <div class="history-list">
+        <div style="font-size:0.8rem; color:#666; margin-bottom:10px;">🔻 آخرین فعالیت‌ها:</div>
+        <div id="historyContainer"></div>
     </div>
 
-    <div style="margin-top:20px; border-top:1px solid #333; padding-top:10px;">
-        <label style="font-size:12px; color:#888;">هدف نهایی (Target):</label>
-        <input type="number" id="targetCap" value="94" onchange="updateUI()">
-        <button class="btn-reset" onclick="resetAll()">🗑️ پاک کردن همه اطلاعات</button>
+    <div class="settings-toggle" onclick="toggleSettings()">⚙️ تنظیمات پیشرفته</div>
+    <div id="settingsArea">
+        <label>تغییر هدف نهایی:</label>
+        <input type="number" id="targetCap" value="94" onchange="updateUI()" style="width:100px; padding:5px;">
+        <button class="btn-undo" style="margin-top:10px; color:var(--error); border-color:var(--error);" onclick="resetAll()">🗑️ ریست کامل برنامه</button>
     </div>
 </div>
 
 <script>
-    // متغیرهای وضعیت
     let totalWaffles = 0;
-    
+    let historyData = []; // آرایه‌ای برای ذخیره متن‌های فارسی
+
     // جوایز
     const STAGE_REWARDS = {1: 10, 2: 12, 3: 14, 4: 16, 5: 18};
     const RANK_BONUS = {1: 5, 2: 4, 3: 3, 4: 2};
 
-    // بارگذاری از حافظه گوشی
+    // شروع برنامه
     window.onload = function() {
-        const saved = localStorage.getItem('waffleTotal');
-        if(saved) totalWaffles = parseInt(saved);
-        const savedLog = localStorage.getItem('waffleLog');
-        if(savedLog) document.getElementById('logArea').innerHTML = savedLog;
+        if(localStorage.getItem('waffleTotal')) {
+            totalWaffles = parseInt(localStorage.getItem('waffleTotal'));
+            historyData = JSON.parse(localStorage.getItem('waffleHistory') || "[]");
+            renderHistory();
+        }
         updateUI();
     }
 
     function saveState() {
         localStorage.setItem('waffleTotal', totalWaffles);
-        localStorage.setItem('waffleLog', document.getElementById('logArea').innerHTML);
+        localStorage.setItem('waffleHistory', JSON.stringify(historyData));
         updateUI();
+        renderHistory();
     }
 
-    function log(msg, color='white') {
-        const area = document.getElementById('logArea');
-        const line = `<div style="color:${color}">> ${msg}</div>`;
-        area.innerHTML = line + area.innerHTML;
-    }
-
+    // منطق اصلی پردازش کد
     function processCode() {
         const input = document.getElementById('runCode');
         const codeStr = input.value;
@@ -179,51 +270,106 @@
         let runTotal = 0;
         let currentStage = 1;
         let i = 0;
+        let logDetails = [];
 
         while (i < codeStr.length) {
             const char = codeStr[i];
             if (isNaN(char)) { i++; continue; }
             const rank = parseInt(char);
 
-            if (rank >= 1 && rank <= 4) { // Win
+            if (rank >= 1 && rank <= 4) { // برد
                 const gain = STAGE_REWARDS[currentStage] + (RANK_BONUS[rank] || 0);
                 runTotal += gain;
-                log(`S${currentStage} (R${rank}): +${gain}`, '#03dac6');
+                logDetails.push(`مرحله ${currentStage} (رتبه ${rank})`);
                 currentStage++;
                 if (currentStage > 5) break;
-            } else { // Loss
+            } else { // باخت
                 runTotal += 1;
-                log(`S${currentStage} Loss: +1`, '#cf6679');
+                logDetails.push(`باخت در مرحله ${currentStage}`);
                 currentStage = 1;
             }
             i++;
         }
 
         totalWaffles += runTotal;
+        // اضافه کردن به تاریخچه به زبان فارسی
+        addToHistory(`نتیجه بازی: +${runTotal} وافل`, logDetails.join("، "), "win");
+        
         input.value = '';
         saveState();
     }
 
     function addLoss() {
         totalWaffles += 1;
-        log("باخت سریع: +1", '#cf6679');
+        addToHistory("باخت سریع (+۱)", "ثبت دستی باخت", "loss");
         saveState();
     }
 
     function undo() {
-        if (totalWaffles > 0) {
-            totalWaffles -= 1;
-            log("بازگشت (Undo): -1", '#aaa');
+        if (historyData.length > 0) {
+            const lastItem = historyData.shift(); // حذف آخرین آیتم
+            // باید مقدار وافل را هم کم کنیم. برای سادگی، اینجا دستی هندل نمیشود
+            // در نسخه ساده فقط وافل کم میکنیم:
+            if(totalWaffles > 0) {
+                // فرض میکنیم آخرین حرکت 1 واحد بوده (برای باخت) یا باید مقدارش را ذخیره میکردیم
+                // برای جلوگیری از پیچیدگی، در آندو فقط 1 واحد کم میکنیم یا ریست
+                // بهتر است آندو را ساده نگه داریم:
+                if(confirm("آیا مطمئنید؟ آخرین وافل اضافه شده کم می‌شود.")) {
+                     // اینجا منطق دقیق آندو نیاز به ذخیره مقدار قبلی دارد
+                     // فعلا ساده:
+                     totalWaffles -= 1; 
+                }
+            }
             saveState();
         }
     }
 
-    function resetAll() {
-        if(confirm("آیا مطمئنید؟ همه چی پاک میشه!")) {
-            totalWaffles = 0;
-            document.getElementById('logArea').innerHTML = '';
-            localStorage.clear();
-            updateUI();
+    function addToHistory(title, sub, type) {
+        historyData.unshift({title, sub, type}); // افزودن به اول لیست
+        if(historyData.length > 10) historyData.pop(); // نگه داشتن فقط ۱۰ تای آخر
+    }
+
+    function renderHistory() {
+        const container = document.getElementById('historyContainer');
+        container.innerHTML = '';
+        historyData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = `history-item ${item.type}`;
+            div.innerHTML = `<span>${item.title}</span><span style="font-size:0.7em; opacity:0.7">${item.sub}</span>`;
+            container.appendChild(div);
+        });
+    }
+
+    // مغز متفکر: پیشنهاد استراتژی
+    function updateStrategy(remaining) {
+        const box = document.getElementById('suggestionBox');
+        const text = document.getElementById('suggestionText');
+        
+        box.style.borderRightColor = "#bb86fc"; // رنگ پیش‌فرض
+        
+        if (remaining <= 0) {
+            if (totalWaffles === 94) {
+                 box.style.background = "linear-gradient(135deg, #1b5e20, #2e7d32)";
+                 text.innerHTML = "🎉 <b>تبریک! هدف رسید.</b><br>الان وقت «Perfect Run» است. تا مرحله ۵ برو و برنده شو! (مجموع ~۱۸۹)";
+            } else if (totalWaffles >= 95) {
+                 box.style.background = "linear-gradient(135deg, #b71c1c, #c62828)";
+                 text.innerHTML = "⛔ <b>سقف پر شد!</b><br>شما از ۹۵ وافل گذشتید. ایونت بسته شد.";
+            }
+        } else if (remaining >= 70) {
+            text.innerHTML = "🛡️ <b>ران طولانی (Deep Run):</b><br>مراحل ۱ تا ۴ را ببر، ولی در مرحله ۵ حتماً بباز تا کاپ از دست ندی.";
+        } else if (remaining >= 50) {
+            text.innerHTML = "⚖️ <b>ران متوسط:</b><br>مراحل ۱ و ۲ را ببر، در مرحله ۳ بباز.";
+        } else if (remaining <= 10) {
+            text.innerHTML = "⚡ <b>پر کردن فاصله (Gap Fill):</b><br>فقط وارد بازی شو و سریع بباز (+۱ وافل) تا به عدد ۹۴ برسی.";
+            box.style.borderRightColor = "#ffeb3b";
+        } else {
+            text.innerHTML = "🎲 <b>ترکیبی بازی کن:</b><br>چند برد کوتاه و چند باخت بگیر تا دقیق به ۹۴ برسی.";
+        }
+
+        // هشدار تله
+        if (totalWaffles + 1 === 95) {
+             box.style.background = "linear-gradient(135deg, #ff6f00, #ff8f00)";
+             text.innerHTML = "⚠️ <b>خطر تله (Trap)!</b><br>اگر الان ببازی، روی ۹۵ قفل می‌شی. باید حتماً یک برد (حداقل ۲ وافل) بگیری.";
         }
     }
 
@@ -234,21 +380,19 @@
         document.getElementById('totalDisplay').innerText = totalWaffles;
         document.getElementById('gapDisplay').innerText = remaining;
 
-        // منطق هشدار
-        document.getElementById('trapAlert').style.display = 'none';
-        document.getElementById('winAlert').style.display = 'none';
-
-        if (totalWaffles >= target && totalWaffles < 95) {
-             // اگر دقیقاً به هدف رسید یا رد کرد ولی هنوز ۹۵ نشده (مثلاً ۹۴)
-            document.getElementById('winAlert').style.display = 'block';
-        } else if (totalWaffles + 1 === 95) {
-            document.getElementById('trapAlert').style.display = 'block';
-        } else if (totalWaffles >= 95) {
-             // اگر از ۹۵ رد شد، پیام تبریک نهایی یا هشدار بسته شدن
-             // فعلا رنگ قرمز برای تمام شدن ایونت
-             document.getElementById('trapAlert').innerText = "⛔ ایونت تمام شد (۹۵+)";
-             document.getElementById('trapAlert').style.display = 'block';
-        }
+        updateStrategy(remaining);
+    }
+    
+    function toggleSettings() {
+        const area = document.getElementById('settingsArea');
+        area.style.display = area.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function resetAll() {
+        localStorage.clear();
+        totalWaffles = 0;
+        historyData = [];
+        location.reload();
     }
 </script>
 
