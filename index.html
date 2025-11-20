@@ -3,126 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Waffle Optimizer</title>
+    <title>ماشین حساب وافل</title>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
         :root {
-            --bg: #121212; --card: #1e1e1e; --accent: #bb86fc;
-            --green: #03dac6; --red: #cf6679; --yellow: #ffb74d;
-            --text: #f5f5f5; --sub: #aaaaaa; --disabled: #333;
+            --bg: #0f0f0f; 
+            --card: #1a1a1a; 
+            --accent: #bb86fc; /* بنفش */
+            --accent-glow: rgba(187, 134, 252, 0.4);
+            --green: #00e676; 
+            --green-glow: rgba(0, 230, 118, 0.4);
+            --red: #ff5252; 
+            --red-glow: rgba(255, 82, 82, 0.4);
+            --yellow: #ffeb3b;
+            --text: #ffffff; 
+            --sub: #b0b0b0;
         }
         body {
             background: var(--bg); color: var(--text);
             font-family: 'Vazirmatn', sans-serif;
             margin: 0; padding: 15px;
             display: flex; justify-content: center;
-            /* جلوگیری از زوم ناخواسته در موبایل */
             touch-action: manipulation; 
         }
         .app-container {
             width: 100%; max-width: 450px;
             background: var(--card); padding: 20px;
-            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 24px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.7); /* سایه کلی */
             display: flex; flex-direction: column; gap: 20px;
+            border: 1px solid #333;
         }
+        
+        /* تایتل نئونی */
         h1 {
-            text-align: center; color: var(--accent); font-size: 1.4rem; margin: 0;
+            text-align: center; color: var(--accent); 
+            font-size: 1.5rem; margin: 0;
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
         /* --- داشبورد آمار --- */
         .dashboard {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
         }
         .stat-box {
-            background: #2d2d2d; padding: 12px; border-radius: 12px; text-align: center;
-            border: 1px solid #3d3d3d;
+            background: #252525; padding: 15px; border-radius: 16px; text-align: center;
+            border: 1px solid #333;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
-        .stat-label { font-size: 0.75rem; color: var(--sub); margin-bottom: 4px; }
-        .stat-value { font-size: 1.6rem; font-weight: 900; }
-        .val-green { color: var(--green); }
-        .val-yellow { color: var(--yellow); }
+        .stat-label { font-size: 0.75rem; color: var(--sub); margin-bottom: 5px; }
+        .stat-value { font-size: 1.8rem; font-weight: 900; letter-spacing: 1px; }
+        
+        .val-green { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
+        .val-yellow { color: var(--yellow); text-shadow: 0 0 10px rgba(255, 235, 59, 0.3); }
 
         /* --- بخش ویزارد (انتخابگر رتبه) --- */
         .wizard-card {
-            background: #252525; border-radius: 16px; padding: 15px;
+            background: #222; border-radius: 20px; padding: 18px;
             border: 1px solid #333; position: relative; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
         .stage-header {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
         }
-        .stage-title { font-size: 1.1rem; font-weight: bold; color: var(--text); }
+        .stage-title { 
+            font-size: 1.1rem; font-weight: bold; color: var(--text);
+            text-shadow: 0 0 5px rgba(255,255,255,0.2);
+        }
         .stage-badge { 
-            background: var(--accent); color: #000; padding: 2px 10px; 
-            border-radius: 20px; font-size: 0.8rem; font-weight: bold; 
+            background: rgba(187, 134, 252, 0.15); color: var(--accent); 
+            padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; 
+            border: 1px solid var(--accent-glow);
         }
         
         /* گرید دکمه‌های رنک */
         .rank-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
         }
         .rank-btn {
-            background: #333; border: none; border-radius: 12px; padding: 15px 10px;
-            color: #fff; font-family: 'Vazirmatn', sans-serif; font-size: 0.95rem;
-            cursor: pointer; transition: all 0.1s; position: relative;
+            border: none; border-radius: 14px; padding: 16px 10px;
+            color: #fff; font-family: 'Vazirmatn', sans-serif; font-size: 1rem;
+            cursor: pointer; transition: all 0.15s; position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* سایه دکمه */
         }
         .rank-btn:active { transform: scale(0.96); }
-        .rank-btn small { display: block; font-size: 0.7rem; opacity: 0.7; margin-top: 4px; }
+        .rank-btn small { display: block; font-size: 0.75rem; opacity: 0.8; margin-top: 4px; }
         
-        .btn-win { background: #3d3d3d; border: 1px solid #555; }
-        .btn-win:hover { background: #444; border-color: var(--accent); }
-        
-        .btn-loss { 
-            grid-column: span 2; /* دکمه باخت کل عرض را بگیرد */
-            background: rgba(207, 102, 121, 0.1); color: var(--red); 
-            border: 1px solid var(--red); font-weight: bold;
+        /* استایل دکمه‌های برد */
+        .btn-win { 
+            background: linear-gradient(145deg, #333, #2a2a2a); 
+            border: 1px solid #444;
         }
+        .btn-win:hover { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        
+        /* استایل دکمه باخت */
+        .btn-loss { 
+            grid-column: span 2; 
+            background: linear-gradient(145deg, #2d1a1a, #251515);
+            color: var(--red); border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+        .btn-loss:hover { box-shadow: 0 0 10px var(--red-glow); border-color: var(--red); }
 
         /* دکمه‌های کنترل پایین ویزارد */
         .wizard-controls {
-            display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px solid #333;
+            display: flex; justify-content: space-between; margin-top: 18px; padding-top: 15px; 
+            border-top: 1px solid #333;
         }
         .ctrl-btn {
             background: transparent; border: none; color: var(--sub); font-family: inherit;
             font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 5px;
+            padding: 8px 12px; border-radius: 8px;
         }
-        .ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+        .ctrl-btn:hover { background: #333; color: #fff; }
+        .ctrl-btn:disabled { opacity: 0.3; cursor: default; background: transparent; }
 
         /* --- تنظیمات هدف (Target) --- */
         .target-control {
             display: flex; align-items: center; justify-content: center; gap: 15px;
-            background: #1a1a1a; padding: 10px; border-radius: 12px; margin-top: 10px;
+            background: #222; padding: 8px; border-radius: 16px; margin-top: 8px;
+            border: 1px solid #333; width: fit-content; margin-left: auto; margin-right: auto;
         }
         .t-btn {
-            width: 40px; height: 40px; border-radius: 50%; border: none;
-            background: #333; color: #fff; font-size: 1.2rem; font-weight: bold;
+            width: 42px; height: 42px; border-radius: 12px; border: none;
+            background: #333; color: #fff; font-size: 1.4rem;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
         }
-        .t-btn:active { background: var(--accent); color: #000; }
-        .t-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
+        .t-btn:active { background: var(--accent); }
+        .t-btn:disabled { 
+            background: #1a1a1a; color: #444; cursor: not-allowed; border: 1px solid #222;
+        }
         
-        .t-display { font-size: 1.5rem; font-weight: bold; color: var(--text); min-width: 50px; text-align: center; }
+        .t-display { 
+            font-size: 1.6rem; font-weight: 900; color: var(--text); 
+            min-width: 55px; text-align: center; 
+        }
 
         /* --- بخش مشاور --- */
         .advisor-box {
-            font-size: 0.85rem; color: var(--sub); text-align: center;
-            padding: 10px; border-radius: 10px; background: #222; border: 1px dashed #444;
+            font-size: 0.9rem; color: var(--sub); text-align: center;
+            padding: 12px; border-radius: 12px; background: #202020; 
+            border: 1px dashed #444; line-height: 1.6;
         }
-        .adv-highlight { color: var(--accent); font-weight: bold; }
-
-        /* دکمه ریست */
+        
         .reset-link { 
-            text-align: center; color: #444; font-size: 0.75rem; margin-top: 10px; cursor: pointer; 
+            text-align: center; color: #555; font-size: 0.75rem; margin-top: 15px; cursor: pointer; 
         }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h1>🧇 بهینه‌ساز وافل</h1>
+    <h1>🧇 ماشین حساب وافل 🧇</h1>
 
     <div class="dashboard">
         <div class="stat-box">
-            <div class="stat-label">وافل‌های جمع‌شده</div>
+            <div class="stat-label">وافلایی که تا الان جمع کردی</div>
             <div class="stat-value val-green" id="totalDisplay">0</div>
         </div>
         <div class="stat-box">
@@ -133,8 +169,8 @@
 
     <div class="wizard-card">
         <div class="stage-header">
-            <span class="stage-title" id="stageTitle">استیج ۱</span>
-            <span class="stage-badge" id="currentRunBadge">ران فعلی: ۰</span>
+            <span class="stage-title" id="stageTitle">رتبه‌ت توی استیج ۱</span>
+            <span class="stage-badge" id="currentRunBadge">تعداد وافلای این ران: ۰</span>
         </div>
 
         <div class="rank-grid" id="buttonsArea">
@@ -144,14 +180,14 @@
             <button class="ctrl-btn" id="btnBack" onclick="goBackStep()">
                 ↩️ اصلاح قبلی
             </button>
-            <button class="ctrl-btn" style="color:var(--yellow)" onclick="finishRunEarly()">
-                ✨ فعلا ثبت کن (ناتمام)
+            <button class="ctrl-btn" style="color:var(--accent); font-weight:bold;" onclick="saveOnly()">
+                💾 فعلا همینارو ثبت کن
             </button>
         </div>
     </div>
 
     <div class="advisor-box" id="advisorText">
-        در حال محاسبه بهترین مسیر...
+        در حال محاسبه...
     </div>
 
     <div style="text-align:center; margin-top:10px;">
@@ -163,15 +199,17 @@
         </div>
     </div>
 
-    <div class="reset-link" onclick="resetAll()">🗑️ پاکسازی کامل اطلاعات</div>
+    <div class="reset-link" onclick="resetAll()">🗑️ پاکسازی کامل اطلاعات (شروع از صفر)</div>
 </div>
 
 <script>
     // --- تنظیمات و ثوابت ---
     const REWARDS = {1: 10, 2: 12, 3: 14, 4: 16, 5: 18};
     const BONUS = {1: 5, 2: 4, 3: 3, 4: 2};
-    const MIN_TARGET = 90;
-    const MAX_TARGET = 200;
+    
+    // محدودیت‌های هدف
+    const MIN_TARGET = 60;
+    const MAX_TARGET = 94;
 
     // وضعیت برنامه (State)
     let state = {
@@ -185,13 +223,18 @@
 
     // --- راه اندازی ---
     window.onload = () => {
-        const saved = localStorage.getItem('waffleState_v8');
+        const saved = localStorage.getItem('waffleState_v9');
         if (saved) state = JSON.parse(saved);
+        
+        // اطمینان از اینکه تارگت در بازه معتبر است
+        if(state.target > MAX_TARGET) state.target = MAX_TARGET;
+        if(state.target < MIN_TARGET) state.target = MIN_TARGET;
+        
         renderUI();
     };
 
     function save() {
-        localStorage.setItem('waffleState_v8', JSON.stringify(state));
+        localStorage.setItem('waffleState_v9', JSON.stringify(state));
         renderUI();
     }
 
@@ -213,38 +256,38 @@
 
         // اگر استیج ۵ تمام شد
         if (state.currentStage > 5) {
-            finishRun("🎉 ران کامل شد!");
+            finishRunAndReset("🎉 ران کامل شد!");
         } else {
-            save(); // فقط رندر بعدی
+            save(); // وضعیت جدید استیج ذخیره می‌شود
         }
     }
 
     // کلیک روی دکمه باخت
     function handleLoss() {
-        // در باخت، ران ریست می‌شود و فقط ۱ وافل اضافه می‌شود به کل
-        // اما قبلش باید هرچی در این ران جمع کردیم (runScore) رو اضافه کنیم به کل
-        
         const finalGainFromRun = state.runScore + 1; // هرچی بردیم + ۱ برای باخت
         state.total += finalGainFromRun;
         
-        // ریست ران
+        // فقط در صورت باخت یا برد کامل ران ریست می‌شود
         resetRunState();
         save();
     }
 
-    // ثبت ران ناتمام (دکمه پایین)
-    function finishRunEarly() {
-        if (state.runScore === 0) return;
-        state.total += state.runScore;
-        resetRunState();
+    // دکمه «فعلا ثبت کن» (فقط ذخیره می‌کند، ریست نمی‌کند)
+    function saveOnly() {
         save();
+        // نمایش یک افکت بصری کوچک روی دکمه (اختیاری)
+        const btn = document.querySelector('button[onclick="saveOnly()"]');
+        const originalText = btn.innerText;
+        btn.innerText = "✅ ذخیره شد";
+        setTimeout(() => { btn.innerText = originalText; }, 1500);
     }
 
-    // تابع کمکی برای نهایی کردن ران
-    function finishRun(msg) {
+    // تابع پایان ران (فقط وقتی واقعا تمام شد)
+    function finishRunAndReset(msg) {
         state.total += state.runScore;
         resetRunState();
         save();
+        alert(msg); // پیام پایان
     }
 
     function resetRunState() {
@@ -273,7 +316,7 @@
     }
 
     function resetAll() {
-        if(confirm("همه چیز پاک شود؟")) {
+        if(confirm("مطمئنی؟ همه اطلاعات پاک میشه و از صفر شروع میکنی.")) {
             localStorage.clear();
             location.reload();
         }
@@ -286,15 +329,19 @@
         const gap = state.target - state.total;
         document.getElementById('gapDisplay').innerText = gap;
 
-        // 2. کنترل هدف
+        // 2. کنترل هدف (محدودیت‌ها و رنگ دکمه‌ها)
         document.getElementById('targetVal').innerText = state.target;
-        document.getElementById('btnMinus').disabled = (state.target <= MIN_TARGET);
-        document.getElementById('btnPlus').disabled = (state.target >= MAX_TARGET);
+        
+        const btnMinus = document.getElementById('btnMinus');
+        const btnPlus = document.getElementById('btnPlus');
+        
+        btnMinus.disabled = (state.target <= MIN_TARGET);
+        btnPlus.disabled = (state.target >= MAX_TARGET);
 
         // 3. ویزارد (دکمه‌ها)
         const stage = state.currentStage;
-        document.getElementById('stageTitle').innerText = `استیج ${stage}`;
-        document.getElementById('currentRunBadge').innerText = `در این ران: ${state.runScore}`;
+        document.getElementById('stageTitle').innerText = `رتبه‌ت توی استیج ${stage}`;
+        document.getElementById('currentRunBadge').innerText = `تعداد وافلای این ران: ${state.runScore}`;
         document.getElementById('btnBack').disabled = (state.history.length === 0);
 
         const grid = document.getElementById('buttonsArea');
@@ -313,7 +360,7 @@
         // دکمه باخت
         const loseBtn = document.createElement('button');
         loseBtn.className = 'rank-btn btn-loss';
-        loseBtn.innerHTML = `💀 باختم در استیج ${stage} <small>کلاً +1 وافل و پایان ران</small>`;
+        loseBtn.innerHTML = `توی استیج ${stage} باختم <small>+1 وافل و پایان ران</small>`;
         loseBtn.onclick = () => handleLoss();
         grid.appendChild(loseBtn);
 
@@ -325,24 +372,29 @@
         const el = document.getElementById('advisorText');
         const total = state.total;
         
+        // استایل دهی پویا
+        el.style.border = "1px dashed #444";
+        el.style.background = "#202020";
+
         if (total >= 95) {
-            el.innerHTML = `<span style="color:var(--red)">⛔ سقف پر شد! (۹۵+) ایونت بسته شد.</span>`;
+            el.innerHTML = `<span style="color:var(--red); font-weight:bold;">⛔ سقف پر شد! (۹۵+) ایونت برای امروز تمام شد.</span>`;
             el.style.borderColor = "var(--red)";
+            el.style.background = "rgba(255, 82, 82, 0.1)";
         } else if (total === state.target) {
-            el.innerHTML = `<span style="color:var(--green)">🎉 عالی! حالا Perfect Run برو (تا آخر ببر).</span>`;
+            el.innerHTML = `<span style="color:var(--green); font-weight:bold;">🎉 رسیدیم به هدف!</span><br>حالا یه ران کامل (Perfect Run) برو و همه رو ببر.`;
             el.style.borderColor = "var(--green)";
+            el.style.background = "rgba(0, 230, 118, 0.1)";
         } else if (total + 1 === 95) {
-            el.innerHTML = `<span style="color:var(--red)">⚠️ تله! نباید ببازی. حتما استیج ۱ رو ببر.</span>`;
+            el.innerHTML = `<span style="color:var(--red); font-weight:bold;">⚠️ خطر تله!</span><br>نباید ببازی. حتما باید استیج ۱ رو ببری (حداقل ۲ وافل).`;
             el.style.borderColor = "var(--red)";
         } else {
             // استراتژی
             let msg = "";
-            if (gap >= 73) msg = "پیشنهاد: <b>Deep Run</b> (تا استیج ۴ ببر، استیج ۵ بباز)";
-            else if (gap >= 16) msg = "پیشنهاد: <b>Short Run</b> (استیج ۱ ببر، استیج ۲ بباز)";
-            else msg = `پیشنهاد: <b>Gap Fill</b> (${gap} بار پشت هم در استیج ۱ بباز)`;
+            if (gap >= 73) msg = `پیشنهاد: <b style="color:var(--accent)">Deep Run</b><br>(تا استیج ۴ ببر، ولی استیج ۵ رو حتما بباز)`;
+            else if (gap >= 16) msg = `پیشنهاد: <b style="color:var(--accent)">Short Run</b><br>(استیج ۱ رو ببر، ولی استیج ۲ رو بباز)`;
+            else msg = `پیشنهاد: <b style="color:var(--yellow)">Gap Fill</b><br>(${gap} بار پشت سر هم توی استیج ۱ بباز)`;
             
             el.innerHTML = msg;
-            el.style.borderColor = "#444";
         }
     }
 </script>
